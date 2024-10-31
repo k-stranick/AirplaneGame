@@ -11,9 +11,9 @@ public class PlaneController {
 	final int SPEED = 10;
 	JFrame frame = new JFrame();
 	JPanel panel = new JPanel();
-	ImageIcon plane1 = new ImageIcon("resources/plane1.png");
-	ImageIcon plane2 = new ImageIcon("resources/plane2.png");
-	ImageIcon birds = new ImageIcon("resources/birds.png");
+	ImageIcon plane1 = new ImageIcon("sprites/plane1.png");
+	ImageIcon plane2 = new ImageIcon("sprites/plane2.png");
+	ImageIcon birds = new ImageIcon("sprites/birds.png");
 	JLabel plane;
 	int x = 150;
 	int y = 205;
@@ -64,7 +64,7 @@ public class PlaneController {
 
 					pc.plane.setBounds(pc.x, pc.y, 100, 100);
 				}
-				if (keyCode==27) { // escape key
+				if (keyCode == 27) { // escape key
 					//pc.exitGame();
 				}
 			}

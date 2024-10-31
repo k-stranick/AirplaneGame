@@ -2,5 +2,6 @@ package dtcc.itn262;
 
 public class Main {
 	public static void main(String[] args) {
-new PlaneController(1);	}
+		new PlaneController(1);
+	}
 }
