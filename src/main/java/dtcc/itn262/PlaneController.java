@@ -1,11 +1,11 @@
 package dtcc.itn262;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 public class PlaneController {
@@ -19,7 +19,7 @@ public class PlaneController {
 	int x = 150;
 	int y = 205;
 	int score = 0;
-	int[] xyBird = new int[]{0, 200}; // x=0 and y=200
+	int[] xyBird = new int[]{0,0}; // x=0 and y=200
 	int boost = 0;  // hit key to increase boost and stuff maybe items?
 
 	public PlaneController(int i) {
@@ -53,62 +53,61 @@ public class PlaneController {
 			public void keyPressed(KeyEvent key) {
 				int keyCode = key.getKeyCode();
 				PlaneController pc = PlaneController.this;
-				if (keyCode == KeyEvent.VK_LEFT) { // left arrow key
-					if (pc.x > 0)
-						pc.x -= 10 + pc.boost;
 
+				if (keyCode == KeyEvent.VK_LEFT) {
+					if (pc.x > 0) pc.x -= 10 + pc.boost;
 					pc.plane.setBounds(pc.x, pc.y, 100, 100);
-
-				} else if (keyCode == KeyEvent.VK_RIGHT) { // right arrow key
-					if (pc.x < 350)
-						pc.x += 10 + pc.boost;
-					else
-						pc.x = 0;
+				}
+				else if (keyCode == KeyEvent.VK_RIGHT) {
+					if (pc.x < 350) pc.x += 10 + pc.boost;
+					else pc.x = 0;
 					pc.plane.setBounds(pc.x, pc.y, 100, 100);
-				}  // Up arrow key
+				}
 				else if (keyCode == KeyEvent.VK_UP) {
-					if (pc.y > 0) pc.y -= 10 + pc.boost; // Adjust upward position
+					if (pc.y > 0) pc.y -= 10 + pc.boost;
 					pc.plane.setBounds(pc.x, pc.y, 100, 100);
 				}
-				// Down arrow key
 				else if (keyCode == KeyEvent.VK_DOWN) {
-					if (pc.y < 300) pc.y += 10 + pc.boost; // Adjust downward position
+					if (pc.y < 300) pc.y += 10 + pc.boost;
 					pc.plane.setBounds(pc.x, pc.y, 100, 100);
 				}
-				if (keyCode == 32) { // space bar
-					if (Math.abs(pc.x - xyBird[0]) < 50 && Math.abs(pc.y - xyBird[1]) < 50)
-					{
+				if (keyCode == KeyEvent.VK_SPACE) {
+					if (Math.abs(pc.x - xyBird[0]) < 50 && Math.abs(pc.y - xyBird[1]) < 50) {
 						score++;
 						lblScore.setText("Score: " + score);
 						Random rnd = new Random();
-						xyBird[0] = rnd.nextInt(1, 300);
+						xyBird[0] = rnd.nextInt(300);
 						xyBird[1] = 0;
+						lblBird.setBounds(xyBird[0], xyBird[1], 50, 50);
 					}
 					System.out.println("Space bar pressed");
 				}
-
-
-				if (keyCode == 27) { // escape key
+				if (keyCode == KeyEvent.VK_ESCAPE) {
 					pc.exitGame();
 				}
 			}
 		});
 
-		int round = 0;
-		for (int y = 0; y < 400; ++y) {
-			lblBird.setBounds(this.xyBird[0], y, 50, 50);
-			sleep(20);  // make function
-			if (y > 398) {  // if the birds are at the bottom then tick off a rounbd and randomize new position at top
-				Random rnd = new Random();
-				y = 0; // the loop will go on forever until game is exited
-				this.xyBird[0] = rnd.nextInt(1, 300); // randomly places birds
-				round++;
-				if (round > 3) {
-					lblScore.setText("Game Over! Score: " + this.score);
+		final int[] round = {0};
+		// Timer for moving the bird and checking game over
+		Timer timer = new Timer(60, e -> {
+			if (round[0] > 3) {
+				lblScore.setText("Game Over! Score: " + score);
+				((Timer) e.getSource()).stop(); // Stop the timer
+			} else {
+				xyBird[1] += 2; // Move bird down by 2 pixels each tick
+				lblBird.setBounds(xyBird[0], xyBird[1], 50, 50);
+
+				if (xyBird[1] > 400) { // Reset bird position when it reaches bottom
+					xyBird[1] = 0;
+					xyBird[0] = new Random().nextInt(300);
+					round[0]++;
 				}
 			}
-		}
+		});
+		timer.start(); // Start the bird movement timer
 	}
+
 
 	private void sleep(int i) {
 		try {
@@ -121,5 +120,22 @@ public class PlaneController {
 	private void exitGame() {
 		System.exit(0);
 	}
+	private void playOhYeah() {    // Method to play the plane takeoff sound
+		try {
+			// Load the sound file
+			File soundFile = new File("src/main/resources/ohyeah.wav");
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
 
+			// Get a sound clip resource
+			Clip clip = AudioSystem.getClip();
+
+			// Open the audio stream and start playing it
+			clip.open(audioStream);
+			clip.start();
+
+			Thread.sleep(clip.getMicrosecondLength() / 1000);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 }
