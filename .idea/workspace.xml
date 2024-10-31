@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69ff8072-42b9-429c-bd26-5eee1da3fba5" name="Changes" comment="test game">
-      <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dtcc/itn262/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dtcc/itn262/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dtcc/itn262/PlaneController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dtcc/itn262/PlaneController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -96,7 +95,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730338592112</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="test game">
+      <option name="closed" value="true" />
+      <created>1730339142770</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1730339142770</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
